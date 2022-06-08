@@ -1,7 +1,7 @@
-const nodemailer = require("nodemailer");
+const nodeMailer = require("nodemailer");
 
 require("dotenv").config();
-const transpoter = nodemailer.createTransport({
+const transPoter = nodeMailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.email,
@@ -9,18 +9,18 @@ const transpoter = nodemailer.createTransport({
   },
 });
 
-function sendMail(toemail, data) {
-  var mailtransport = {
+function sendMail(toEmail, data) {
+  var mailTransport = {
     from: process.env.email,
-    to: toemail,
-    subject: "verify email for reset password",
-    text: `verify link: ${data}`,
+    to: toEmail,
+    subject: "Verify email for reset password",
+    text: `Verify link: ${data}`,
   };
-  transpoter.sendMail(mailtransport, (err) => {
+  transPoter.sendMail(mailTransport, (err) => {
     if (err) {
-      console.log("err :>> ", err.message);
+      console.log("Err :>> ", err.message);
     } else {
-      console.log("email is sended");
+      console.log("Email is sended");
       // res1.status(200).json({ message: "mail is Succfully sended" });
     }
   });

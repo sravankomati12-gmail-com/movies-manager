@@ -8,5 +8,5 @@ mongoose.connection.on("error", (error) => {
   console.error(error);
 });
 mongoose.connection.on("open", () => {
-  console.log("database is connected");
+  console.log("Database is connected");
 });

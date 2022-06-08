@@ -1,15 +1,15 @@
 const express = require("express");
-const moviecontrol = require("../controllers/movieController");
+const movieControl = require("../controllers/movieController");
 const auth = require("../middleware/auth");
 
-const movierouter = express.Router();
-movierouter.post("/addmovie", auth.movievalidation, moviecontrol.addMovie);
-movierouter.post(
+const movieRouter = express.Router();
+movieRouter.post("/addmovie", auth.movieValidation, movieControl.addMovie);
+movieRouter.post(
   "/updatemovie",
-  auth.movievalidation,
-  moviecontrol.updatemovie
+  auth.movieValidation,
+  movieControl.updateMovie
 );
-movierouter.get("/allmovies", moviecontrol.getAllMovie);
-movierouter.get("/moviebyid", moviecontrol.getMovieById);
-movierouter.delete("/deletemovie", moviecontrol.deletemovie);
-module.exports = movierouter;
+movieRouter.get("/allmovies", movieControl.getAllMovie);
+movieRouter.get("/moviebyid", movieControl.getMovieById);
+movieRouter.delete("/deletemovie", movieControl.deleteMovie);
+module.exports = movieRouter;

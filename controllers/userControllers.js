@@ -9,46 +9,46 @@ module.exports = {
   addAndLoginUser: async (req, res) => {
     try {
       res.clearCookie("token");
-      const { name, email, password, phoneno, dob, gender } = req.body;
+      const { name, email, password, phone, dob, gender } = req.body;
 
       const checkEmail = await userModel.findOne({ email });
       if (checkEmail) {
-        const checkpaswsword = await bcrypt.compare(
+        const checkPaswsword = await bcrypt.compare(
           password,
           checkEmail.password
         );
-        if (checkpaswsword) {
+        if (checkPaswsword) {
           const token = sign(
             { userid: checkEmail._id },
-            process.env.secratekey,
+            process.env.secretKey,
             {
               expiresIn: "1h",
             }
           );
 
           res.cookie("token", token).json({
-            message: "login successfully",
+            message: "Login successfully",
           });
         } else {
           res.json({
-            message: "This Email is exist but password is incorrect",
+            message: "This email is exist but password is incorrect",
           });
         }
       } else {
-        const genaratepassword = await bcrypt.hash(password, 10);
+        const genaratePassword = await bcrypt.hash(password, 10);
         const data = await userModel.create({
           name,
           email,
-          password: genaratepassword,
-          phoneno,
+          password: genaratePassword,
+          phone,
           dob,
           gender,
         });
-        const token = sign({ userid: data._id }, process.env.secratekey, {
+        const token = sign({ userid: data._id }, process.env.secretKey, {
           expiresIn: "1h",
         });
         res.cookie("token", token).json({
-          message: "login successfully",
+          message: "Login successfully",
         });
       }
     } catch (error) {
@@ -58,45 +58,45 @@ module.exports = {
   userList: async (req, res) => {
     try {
       const data = await userModel.find();
-      res.json({ message: "list of users", data });
+      res.json({ message: "List of users", data });
     } catch (error) {
       res.json({ message: error.message });
     }
   },
-  userupdate: async (req, res) => {
+  userUpdate: async (req, res) => {
     try {
-      const { name, email, password, phoneno, dob, gender, id } = req.body;
+      const { name, email, password, phone, dob, gender, id } = req.body;
       const checkUser = await userModel.findById(id);
       if (checkUser) {
-        const genaratepassword = await bcrypt.hash(password, 10);
+        const genaratePassword = await bcrypt.hash(password, 10);
 
         await userModel.findByIdAndUpdate(
           { _id: id },
-          { name, email, password, phoneno: genaratepassword, dob, gender }
+          { name, email, password: genaratePassword, phone, dob, gender }
         );
-        res.json({ message: "this user is updated" });
+        res.json({ message: "This user is updated" });
       } else {
-        res.json({ message: "this user id is not exist" });
+        res.json({ message: "This user id is not exist" });
       }
     } catch (error) {
       res.json({ message: error.message });
     }
   },
-  userdelete: async (req, res) => {
+  userDelete: async (req, res) => {
     try {
       const checkUser = await userModel.findById(req.query.id);
       if (checkUser) {
-        await userModel.findByIdAndUpdate(checkUser._id, { isdelated: true });
-        res.json({ message: "this user is deleted" });
+        await userModel.findByIdAndUpdate(checkUser._id, { isDelated: true });
+        res.json({ message: "This user is deleted" });
       } else {
-        res.json({ message: "this user id is not exist" });
+        res.json({ message: "This user id is not exist" });
       }
     } catch (error) {
       res.json({ message: error.message });
     }
   },
-  logout: async (req, res) => {
-    res.clearCookie("token").json({ message: "logout is done" });
+  logOut: async (req, res) => {
+    res.clearCookie("token").json({ message: "Logout is done" });
   },
   forgotPassword: async (req, res) => {
     try {
@@ -104,38 +104,38 @@ module.exports = {
       if (email != "") {
         const data = await userModel.findOne({ email });
         if (data) {
-          const token = sign({ id: data._id }, process.env.secratekey, {
+          const token = sign({ id: data._id }, process.env.secretKey, {
             expiresIn: "1h",
           });
           const path = `http://localhost:4005/api/user/verifyemail/${token}`;
           mail(email, path);
-          console.log("verify link :>> ", path);
-          res.json({ message: "verify link is sended this email" });
+          console.log("Verify link :>> ", path);
+          res.json({ message: "Verify link is sended this email" });
         } else {
-          res.json({ message: "this email is not exist" });
+          res.json({ message: "This email is not exist" });
         }
       } else {
-        res.json({ message: "email not be empty" });
+        res.json({ message: "Email not be empty" });
       }
     } catch (error) {
       res.json({ message: error.message });
     }
   },
-  verifyemail: async (req, res) => {
+  verifyEmail: async (req, res) => {
     try {
       const { token } = req.params;
-      const { newpassword } = req.body;
+      const { newPassword } = req.body;
 
-      if (newpassword != "" && newpassword != undefined) {
-        const data = verify(token, process.env.secratekey);
-        const hashpassword = await bcrypt.hash(newpassword, 10);
+      if (newPassword != "" && newPassword != undefined) {
+        const data = verify(token, process.env.secretKey);
+        const hashPassword = await bcrypt.hash(newPassword, 10);
         await userModel.findByIdAndUpdate(
           { _id: data.id },
-          { password: hashpassword }
+          { password: hashPassword }
         );
-        res.json({ message: "password is reseted" });
+        res.json({ message: "Password is reseted" });
       } else {
-        res.json({ message: "enter newpassword" });
+        res.json({ message: "Enter newPassword" });
       }
     } catch (error) {
       res.json(error.message);

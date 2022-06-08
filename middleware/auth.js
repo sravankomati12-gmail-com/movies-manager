@@ -1,9 +1,8 @@
 const { verify } = require("jsonwebtoken");
 const valid = require("validator");
-const usermodel = require("../models/usermodel");
+const userModel = require("../models/usermodel");
 const userAccessWithoutLogin = ["/checkuser", "/logout", "/forgot"];
 const userAccess = ["/allmovies"];
-
 require("dotenv").config();
 
 module.exports = {
@@ -37,7 +36,6 @@ module.exports = {
         next();
       }
     } catch (error) {
-      // console.log(error);
       res.json({ messsage: error.messsage });
     }
   },
@@ -49,19 +47,19 @@ module.exports = {
         if (req.cookies.token != undefined) {
           const data = verify(req.cookies.token, process.env.secratekey);
 
-          const checkadmin = await usermodel.findById(data.userid);
+          const checkAdmin = await userModel.findById(data.userid);
 
-          if (checkadmin.isdelated) {
+          if (checkAdmin.isDelated) {
             res.json({ messsage: "Your not exist" });
           } else {
-            req.user = checkadmin;
-            if (checkadmin.isadmin) {
+            req.user = checkAdmin;
+            if (checkAdmin.isAdmin) {
               next();
             } else {
               if (userAccess.indexOf(req.path) != -1) {
                 next();
               } else {
-                res.json({ messsage: "you have acces for this api" });
+                res.json({ messsage: "You have acces for this api" });
               }
             }
           }
@@ -73,7 +71,7 @@ module.exports = {
       res.json({ messsage: error.messsage });
     }
   },
-  movievalidation: async (req, res, next) => {
+  movieValidation: async (req, res, next) => {
     const {
       name,
       decription,
@@ -85,28 +83,28 @@ module.exports = {
       casting,
     } = req.body;
     if (valid.isEmpty(name)) {
-      res.json({ messsage: " movie name not be empty" });
+      res.json({ messsage: " Movie name not be empty" });
     }
     if (valid.isEmpty(decription)) {
-      res.json({ messsage: " movie decription not be empty" });
+      res.json({ messsage: " Movie decription not be empty" });
     }
     if (valid.isEmpty(language)) {
-      res.json({ messsage: " movie language not be empty" });
+      res.json({ messsage: " Movie language not be empty" });
     }
     if (valid.isEmpty(releasedate)) {
-      res.json({ messsage: " movie releasedate not be empty" });
+      res.json({ messsage: " Movie releasedate not be empty" });
     }
     if (valid.isEmpty(rating)) {
-      res.json({ messsage: " rating not be zero" });
+      res.json({ messsage: " Rating not be zero" });
     }
     if (valid.isEmpty(director)) {
-      res.json({ messsage: " movie director not be empty" });
+      res.json({ messsage: " Movie director not be empty" });
     }
     if (valid.isEmpty(producers)) {
-      res.json({ messsage: " movie producers not be empty" });
+      res.json({ messsage: " Movie producers not be empty" });
     }
     if (valid.isEmpty(casting)) {
-      res.json({ messsage: " movie casting not be empty" });
+      res.json({ messsage: " Movie casting not be empty" });
     } else {
       next();
     }

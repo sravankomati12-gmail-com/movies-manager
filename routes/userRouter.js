@@ -1,14 +1,13 @@
 const express = require("express");
-const usercontrol = require("../controllers/userControllers");
+const userControl = require("../controllers/userControllers");
 const auth = require("../middleware/auth");
-const userrouter = express.Router();
+const userRouter = express.Router();
 
-userrouter.post("/checkuser", auth.userValidation, usercontrol.addAndLoginUser);
-userrouter.post("/update", auth.userValidation, usercontrol.userupdate);
-userrouter.get("/list", usercontrol.userList);
-userrouter.delete("/delete", usercontrol.userdelete);
-userrouter.get("/logout", usercontrol.logout);
-userrouter.post("/forgot", usercontrol.forgotPassword);
-userrouter.get("/verify/:token", usercontrol.verifyemail);
+userRouter.post("/checkuser", auth.userValidation, userControl.addAndLoginUser);
+userRouter.post("/update", auth.userValidation, userControl.userUpdate);
+userRouter.get("/list", userControl.userList);
+userRouter.delete("/delete", userControl.userDelete);
+userRouter.get("/logout", userControl.logOut);
+userRouter.post("/forgot", userControl.forgotPassword);
 
-module.exports = userrouter;
+module.exports = userRouter;
