@@ -8,4 +8,5 @@ const index = express.Router();
 index.get("/user/verifyemail/:token", userCont.verifyEmail);
 index.use("/user", auth.tokenVerify, userRout);
 index.use("/movie", auth.tokenVerify, movieRout);
+
 module.exports = index;
