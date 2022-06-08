@@ -44,7 +44,7 @@ module.exports = {
     try {
       const data = await movieModel
         .find()
-        .select({ name: 1, _id: 1, details: 1 });
+        .select({ name: 1, _id: 1, image: 1 });
       res.json({ message: "List of movies", data });
     } catch (error) {
       res.json({ message: error.message });
@@ -118,9 +118,10 @@ module.exports = {
   deleteMovie: async (req, res) => {
     try {
       const data = await movieModel.findOne({ _id: req.query.id });
+
       if (data) {
         fs.unlink(
-          `./public/${data.details.split("4005/")[1]}`,
+          `./public/${data.image.split("4005/")[1]}`,
           async (err, data) => {
             if (err) {
               res.status(404).json({ message: err.message });

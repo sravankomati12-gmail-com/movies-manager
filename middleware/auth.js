@@ -8,7 +8,7 @@ require("dotenv").config();
 module.exports = {
   userValidation: async (req, res, next) => {
     try {
-      const { name, email, password, phoneno, dob, gender } = req.body;
+      const { name, email, password, phone, dob, gender } = req.body;
       if (valid.isEmpty(name)) {
         res.json({ messsage: "Name not be empty" });
       }
@@ -18,8 +18,8 @@ module.exports = {
       if (valid.isEmpty(password)) {
         res.json({ messsage: "Password not be empty" });
       }
-      if (valid.isEmpty(phoneno)) {
-        res.json({ messsage: "Phoneno not be empty" });
+      if (valid.isEmpty(phone)) {
+        res.json({ messsage: "Phone not be empty" });
       }
       if (valid.isEmpty(dob)) {
         res.json({ messsage: "dob not be empty" });
@@ -30,7 +30,7 @@ module.exports = {
       if (!valid.isEmail(email)) {
         res.json({ messsage: "This Email is not a correct format" });
       }
-      if (phoneno.length < 10) {
+      if (phone.length < 10) {
         res.json({ messsage: "Phone no should be 10 digit" });
       } else {
         next();
@@ -45,7 +45,7 @@ module.exports = {
         next();
       } else {
         if (req.cookies.token != undefined) {
-          const data = verify(req.cookies.token, process.env.secratekey);
+          const data = verify(req.cookies.token, process.env.secretKey);
 
           const checkAdmin = await userModel.findById(data.userid);
 
@@ -76,7 +76,7 @@ module.exports = {
       name,
       decription,
       language,
-      releasedate,
+      releaseDate,
       rating,
       director,
       producers,
@@ -91,8 +91,8 @@ module.exports = {
     if (valid.isEmpty(language)) {
       res.json({ messsage: " Movie language not be empty" });
     }
-    if (valid.isEmpty(releasedate)) {
-      res.json({ messsage: " Movie releasedate not be empty" });
+    if (valid.isEmpty(releaseDate)) {
+      res.json({ messsage: " Movie releaseDate not be empty" });
     }
     if (valid.isEmpty(rating)) {
       res.json({ messsage: " Rating not be zero" });
