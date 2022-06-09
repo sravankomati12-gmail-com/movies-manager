@@ -7,7 +7,6 @@ userRouter.post("/checkuser", auth.userValidation, userControl.addAndLoginUser);
 userRouter.post("/update", auth.userValidation, userControl.userUpdate);
 userRouter.get("/list", userControl.userList);
 userRouter.delete("/delete", userControl.userDelete);
-userRouter.get("/logout", userControl.logOut);
 userRouter.post("/forgot", userControl.forgotPassword);
 
 module.exports = userRouter;

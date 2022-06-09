@@ -1,8 +1,9 @@
 const { verify } = require("jsonwebtoken");
 const valid = require("validator");
 const userModel = require("../models/usermodel");
-const userAccessWithoutLogin = ["/checkuser", "/logout", "/forgot"];
-const userAccess = ["/allmovies"];
+const userAccessWithoutLogin = ["/checkuser", "/forgot"];
+const userAccess = ["/allmovies", "/moviebyid"];
+const passport = require("passport");
 require("dotenv").config();
 
 module.exports = {
@@ -41,30 +42,27 @@ module.exports = {
   },
   tokenVerify: async (req, res, next) => {
     try {
-      if (userAccessWithoutLogin.indexOf(req.path) != -1) {
-        next();
-      } else {
-        if (req.cookies.token != undefined) {
-          const data = verify(req.cookies.token, process.env.secretKey);
-
-          const checkAdmin = await userModel.findById(data.userid);
-
-          if (checkAdmin.isDelated) {
-            res.json({ messsage: "Your not exist" });
+      if (req.user) {
+        // console.log(req.user);
+        if (!req.user.isDelated) {
+          if (req.user.isAdmin) {
+            next();
+          } else if (userAccess.indexOf(req.path) !== -1) {
+            next();
           } else {
-            req.user = checkAdmin;
-            if (checkAdmin.isAdmin) {
-              next();
-            } else {
-              if (userAccess.indexOf(req.path) != -1) {
-                next();
-              } else {
-                res.json({ messsage: "You have acces for this api" });
-              }
-            }
+            res.json({ messsage: "You have not access of this api" });
           }
         } else {
-          res.json({ messsage: "You have not login" });
+          res.json({ messsage: "Your not exist in db" });
+        }
+      } else {
+        // res.json({ messsage: "you have not access of this api" });
+        if (userAccessWithoutLogin.indexOf(req.path) !== -1) {
+          next();
+        } else {
+          passport.authenticate("jwt", { session: false });
+          next();
+          // res.json({ messsage: "This url is not existing" });
         }
       }
     } catch (error) {

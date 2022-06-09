@@ -8,7 +8,6 @@ require("dotenv").config();
 module.exports = {
   addAndLoginUser: async (req, res) => {
     try {
-      res.clearCookie("token");
       const { name, email, password, phone, dob, gender } = req.body;
 
       const checkEmail = await userModel.findOne({ email });
@@ -22,12 +21,14 @@ module.exports = {
             { userid: checkEmail._id },
             process.env.secretKey,
             {
-              expiresIn: "1h",
+              expiresIn: "5h",
             }
           );
-
-          res.cookie("token", token).json({
-            message: "Login successfully",
+          res.json({
+            userName: checkEmail.name,
+            admin: checkEmail.isAdmin,
+            token: `Bearer ${token}`,
+            message: "Your are now login",
           });
         } else {
           res.json({
@@ -45,10 +46,13 @@ module.exports = {
           gender,
         });
         const token = sign({ userid: data._id }, process.env.secretKey, {
-          expiresIn: "1h",
+          expiresIn: "5h",
         });
-        res.cookie("token", token).json({
-          message: "Login successfully",
+        res.json({
+          userName: data.name,
+          admin: data.isAdmin,
+          token: `Bearer ${token}`,
+          message: "Your are now login",
         });
       }
     } catch (error) {
@@ -95,9 +99,7 @@ module.exports = {
       res.json({ message: error.message });
     }
   },
-  logOut: async (req, res) => {
-    res.clearCookie("token").json({ message: "Logout is done" });
-  },
+
   forgotPassword: async (req, res) => {
     try {
       const { email } = req.body;
