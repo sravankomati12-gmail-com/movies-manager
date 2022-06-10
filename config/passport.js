@@ -1,5 +1,5 @@
 const { Strategy, ExtractJwt } = require("passport-jwt");
-const usermodel = require("../models/usermodel");
+const usermodel = require("../models/userModel");
 require("dotenv").config();
 const opt = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -8,7 +8,7 @@ const opt = {
 module.exports = (passport) => {
   passport.use(
     new Strategy(opt, async (payload, done) => {
-      console.log(payload);
+      // console.log(payload);
       await usermodel
         .findById(payload.userid)
         .then((user) => {

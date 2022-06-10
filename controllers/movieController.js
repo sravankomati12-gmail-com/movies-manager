@@ -1,4 +1,4 @@
-const movieModel = require("../models/moviemodel");
+const movieModel = require("../models/movieModel");
 const fs = require("fs");
 
 module.exports = {

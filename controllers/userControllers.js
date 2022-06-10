@@ -1,8 +1,7 @@
-const userModel = require("../models/usermodel");
+const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const { sign } = require("jsonwebtoken");
+const { sign, verify } = require("jsonwebtoken");
 const mail = require("../email");
-const { verify } = require("jsonwebtoken");
 require("dotenv").config();
 
 module.exports = {
@@ -99,7 +98,6 @@ module.exports = {
       res.json({ message: error.message });
     }
   },
-
   forgotPassword: async (req, res) => {
     try {
       const { email } = req.body;

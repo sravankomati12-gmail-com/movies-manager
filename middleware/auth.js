@@ -1,8 +1,13 @@
 const { verify } = require("jsonwebtoken");
 const valid = require("validator");
-const userModel = require("../models/usermodel");
 const userAccessWithoutLogin = ["/checkuser", "/forgot"];
-const userAccess = ["/allmovies", "/moviebyid"];
+const userAccess = [
+  "/allmovies",
+  "/moviebyid",
+  "/newticket",
+  "/ticketsbooked",
+  "/addpayment",
+];
 const passport = require("passport");
 require("dotenv").config();
 
@@ -40,7 +45,7 @@ module.exports = {
       res.json({ messsage: error.messsage });
     }
   },
-  tokenVerify: async (req, res, next) => {
+  authVerify: async (req, res, next) => {
     try {
       if (req.user) {
         // console.log(req.user);
@@ -103,6 +108,20 @@ module.exports = {
     }
     if (valid.isEmpty(casting)) {
       res.json({ messsage: " Movie casting not be empty" });
+    } else {
+      next();
+    }
+  },
+  ticketValidation: async (req, res, next) => {
+    const { name, seats, moviedate } = req.body;
+    if (valid.isEmpty(name)) {
+      res.json({ messsage: "movie name field not be empty" });
+    }
+    if (valid.isEmpty(seats)) {
+      res.json({ messsage: "seats field not be empty" });
+    }
+    if (valid.isEmpty(moviedate)) {
+      res.json({ messsage: "moviedate field not be empty" });
     } else {
       next();
     }
