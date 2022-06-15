@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   dob: { type: Date, default: Date.now },
   gender: String,
   isAdmin: { type: Boolean, default: false },
-  isDelated: { type: Boolean, default: false },
+  isDeleted: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

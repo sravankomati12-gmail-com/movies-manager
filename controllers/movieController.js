@@ -21,7 +21,7 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          const imagePath = `http://localhost:4005/${imageName}`;
+          const imagePath = process.env.imagepath + imageName;
           await movieModel.create({
             name,
             decription,
@@ -33,11 +33,12 @@ module.exports = {
             casting,
             image: imagePath,
           });
-          res.json({ message: "New movies is added" });
+          res.json({ message: "New movie are added" });
         }
       });
     } catch (error) {
-      res.json({ message: error.message });
+      console.log(error.message);
+      // res.json({ message: error.message });
     }
   },
   getAllMovie: async (req, res) => {
@@ -47,7 +48,7 @@ module.exports = {
         .select({ name: 1, _id: 1, image: 1 });
       res.json({ message: "List of movies", data });
     } catch (error) {
-      res.json({ message: error.message });
+      console.log(error.message);
     }
   },
   getMovieById: async (req, res) => {
@@ -59,7 +60,7 @@ module.exports = {
         res.json({ message: "This movie id is not exist" });
       }
     } catch (error) {
-      res.json({ message: error.message });
+      console.log(error.message);
     }
   },
   updateMovie: async (req, res) => {
@@ -88,7 +89,7 @@ module.exports = {
               if (err) {
                 console.log(err);
               } else {
-                const imagePath = `http://localhost:4005/${imageName}`;
+                const imagePath = process.env.imagepath + imageName;
                 await movieModel.findByIdAndUpdate(
                   { _id: id },
                   {
@@ -103,7 +104,7 @@ module.exports = {
                     image: imagePath,
                   }
                 );
-                res.json({ message: "This movie details is updated " });
+                res.json({ message: "This movie detail is updated " });
               }
             });
           }
@@ -112,7 +113,7 @@ module.exports = {
         res.json({ message: "This movie id is not exist" });
       }
     } catch (error) {
-      res.json({ message: error.message });
+      console.log(error.message);
     }
   },
   deleteMovie: async (req, res) => {
@@ -135,7 +136,7 @@ module.exports = {
         res.json({ message: "This movie id is not exist" });
       }
     } catch (error) {
-      res.json({ message: error.message });
+      console.log(error.message);
     }
   },
 };

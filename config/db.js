@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-mongoose.connect(
-  "mongodb+srv://sravan_vision:Sravan%40123@cluster0.vr3xu.mongodb.net/movies?retryWrites=true&w=majority",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+mongoose.connect(process.env.dbConnect, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 mongoose.connection.on("error", (error) => {
   console.error(error);
 });

@@ -1,7 +1,9 @@
 const express = require("express");
 const ticketControl = require("../controllers/ticketController");
 const validate = require("../middleware/auth");
+
 const ticketRouter = express.Router();
+
 ticketRouter.post(
   "/newticket",
   validate.ticketValidation,

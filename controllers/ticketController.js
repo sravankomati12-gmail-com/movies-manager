@@ -9,13 +9,9 @@ module.exports = {
         totalSeats -= seats;
         const amount = seats * 80;
         var result = [];
-        var characters =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        var charactersLength = characters.length;
-        for (var i = 0; i < seats; i++) {
-          result.push(
-            characters.charAt(Math.floor(Math.random() * charactersLength))
-          );
+        var ts = String(new Date().getTime());
+        for (var i = 0; i < seats; i += 1) {
+          result.push(Number(ts.substr(i, 2)).toString(36));
         }
         await ticketModel.create({
           movieName: name,
@@ -32,7 +28,7 @@ module.exports = {
       } else {
         res.json({
           message:
-            "No ticket is available ,all ticket are booked try again letar",
+            "No ticket is available ,all ticket are booked try again later",
         });
       }
     } catch (error) {
@@ -50,12 +46,11 @@ module.exports = {
   ticketList: async (req, res) => {
     try {
       const data = await ticketModel.find().populate("createdBy");
-      res.json({ message: "list of  tickets booked user", data });
+      res.json({ message: "list of  tickets  user booked", data });
     } catch (error) {
       res.json({ message: error.message });
     }
   },
-  // ticketUpdate: async (req, res) => {},
   ticketDelete: async (req, res) => {
     try {
       await ticketModel.findByIdAndDelete(req.query.id);

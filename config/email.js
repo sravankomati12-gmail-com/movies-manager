@@ -1,6 +1,6 @@
 const nodeMailer = require("nodemailer");
-
 require("dotenv").config();
+
 const transPoter = nodeMailer.createTransport({
   service: "gmail",
   auth: {

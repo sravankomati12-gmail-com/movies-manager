@@ -1,7 +1,7 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const { sign, verify } = require("jsonwebtoken");
-const mail = require("../email");
+const mail = require("../config/email");
 require("dotenv").config();
 
 module.exports = {
@@ -16,22 +16,28 @@ module.exports = {
           checkEmail.password
         );
         if (checkPaswsword) {
-          const token = sign(
-            { userid: checkEmail._id },
-            process.env.secretKey,
-            {
-              expiresIn: "5h",
-            }
-          );
-          res.json({
-            userName: checkEmail.name,
-            admin: checkEmail.isAdmin,
-            token: `Bearer ${token}`,
-            message: "Your are now login",
-          });
+          if (!checkEmail.isDeleted) {
+            const token = sign(
+              { userid: checkEmail._id },
+              process.env.secretKey,
+              {
+                expiresIn: "5h",
+              }
+            );
+            res.json({
+              userName: checkEmail.name,
+              admin: checkEmail.isAdmin,
+              token: `Bearer ${token}`,
+              message: "you are now login successfully",
+            });
+          } else {
+            res.json({
+              message: "Your not active please contact to admin",
+            });
+          }
         } else {
           res.json({
-            message: "This email is exist but password is incorrect",
+            message: "This email exists but the password is incorrect",
           });
         }
       } else {
@@ -51,11 +57,11 @@ module.exports = {
           userName: data.name,
           admin: data.isAdmin,
           token: `Bearer ${token}`,
-          message: "Your are now login",
+          message: "you are now login successfully",
         });
       }
     } catch (error) {
-      res.json({ message: error.message });
+      console.log(error.message);
     }
   },
   userList: async (req, res) => {
@@ -77,7 +83,7 @@ module.exports = {
           { _id: id },
           { name, email, password: genaratePassword, phone, dob, gender }
         );
-        res.json({ message: "This user is updated" });
+        res.json({ message: "This user details is updated" });
       } else {
         res.json({ message: "This user id is not exist" });
       }
@@ -89,7 +95,7 @@ module.exports = {
     try {
       const checkUser = await userModel.findById(req.query.id);
       if (checkUser) {
-        await userModel.findByIdAndUpdate(checkUser._id, { isDelated: true });
+        await userModel.findByIdAndUpdate(checkUser._id, { isDeleted: true });
         res.json({ message: "This user is deleted" });
       } else {
         res.json({ message: "This user id is not exist" });
@@ -100,45 +106,24 @@ module.exports = {
   },
   forgotPassword: async (req, res) => {
     try {
-      const { email } = req.body;
+      const { email, newPassword } = req.body;
       if (email != "") {
         const data = await userModel.findOne({ email });
         if (data) {
-          const token = sign({ id: data._id }, process.env.secretKey, {
-            expiresIn: "1h",
-          });
-          const path = `http://localhost:4005/api/user/verifyemail/${token}`;
-          mail(email, path);
-          console.log("Verify link :>> ", path);
-          res.json({ message: "Verify link is sended this email" });
+          const genaratePassword = await bcrypt.hash(newPassword, 10);
+          await userModel.findOneAndUpdate(
+            { email },
+            { password: genaratePassword }
+          );
+          res.json({ message: "Password is updated" });
         } else {
           res.json({ message: "This email is not exist" });
         }
       } else {
-        res.json({ message: "Email not be empty" });
+        res.json({ message: "Email and newPassword are not empty" });
       }
     } catch (error) {
       res.json({ message: error.message });
-    }
-  },
-  verifyEmail: async (req, res) => {
-    try {
-      const { token } = req.params;
-      const { newPassword } = req.body;
-
-      if (newPassword != "" && newPassword != undefined) {
-        const data = verify(token, process.env.secretKey);
-        const hashPassword = await bcrypt.hash(newPassword, 10);
-        await userModel.findByIdAndUpdate(
-          { _id: data.id },
-          { password: hashPassword }
-        );
-        res.json({ message: "Password is reseted" });
-      } else {
-        res.json({ message: "Enter newPassword" });
-      }
-    } catch (error) {
-      res.json(error.message);
     }
   },
 };

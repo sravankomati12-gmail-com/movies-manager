@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const paymentSchema = new mongoose.Schema({
   acountNo: String,
   paymentOpt: String,
@@ -8,5 +9,7 @@ const paymentSchema = new mongoose.Schema({
   ticket: { type: mongoose.Schema.Types.ObjectId, ref: "ticketInfo" },
   userName: String,
   createdAt: { type: Date, default: Date.now },
+  paymentId: String,
 });
+
 module.exports = mongoose.model("paymentInfo", paymentSchema);
