@@ -34,8 +34,8 @@
       "description": "API for tickets in the system"
     },
     {
-      "name": "Payment",
-      "description": "API for payment in the system"
+      "name": "Payments",
+      "description": "API for payments in the system"
     }
   ],
   "schemes": ["http", "https"],
@@ -670,7 +670,7 @@
             "BearerAuth": []
           }
         ],
-        "tags": ["Payment"],
+        "tags": ["Payments"],
         "description": "Add new payment",
         "produces": ["application/json"],
 
@@ -712,7 +712,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Payment"
+              "$ref": "#/definitions/Payments"
             }
           },
           "400": {
@@ -731,7 +731,7 @@
             "BearerAuth": []
           }
         ],
-        "tags": ["Payment"],
+        "tags": ["Payments"],
         "description": "List of payments transection",
         "produces": ["application/json"],
         "parameters": [
@@ -750,7 +750,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Payment"
+              "$ref": "#/definitions/Payments"
             }
           },
           "400": {
@@ -769,7 +769,7 @@
             "BearerAuth": []
           }
         ],
-        "tags": ["Payment"],
+        "tags": ["Payments"],
         "description": "List of payments transection by id",
         "produces": ["application/json"],
         "parameters": [
@@ -786,7 +786,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Payment"
+              "$ref": "#/definitions/Payments"
             }
           },
           "400": {
@@ -805,7 +805,7 @@
             "BearerAuth": []
           }
         ],
-        "tags": ["Payment"],
+        "tags": ["Payments"],
         "description": "Delete payment by id",
         "produces": ["application/json"],
         "parameters": [
@@ -942,7 +942,7 @@
         "type": "string"
       }
     },
-    "Payment": {
+    "Payments": {
       "required": [
         "acountNo",
         "paymentOpt",

@@ -153,9 +153,13 @@ module.exports = {
     }
   },
   searchMovie: async (req, res) => {
-    // console.log(req.body);
-    const result = await movieModel.find(req.body);
-    // const result = await movieModel.find({ language: { $regex: /^telugu$/i } });
-    res.json({ message: "Get movies by what your search", result });
+    try {
+      // console.log(req.body);
+      const result = await movieModel.find(req.body);
+      // const result = await movieModel.find({ language: { $regex: /^telugu$/i } });
+      res.json({ message: "Get movies by what your search", result });
+    } catch (error) {
+      res.json({ message: error.message });
+    }
   },
 };
