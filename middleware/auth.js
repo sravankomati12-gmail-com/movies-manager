@@ -8,6 +8,7 @@ const userAccess = [
   "/newticket",
   "/ticketsbooked",
   "/addpayment",
+  "/moviesearch",
 ];
 
 module.exports = {
@@ -27,10 +28,10 @@ module.exports = {
         res.json({ messsage: "Phone no is not empty" });
       }
       if (valid.isEmpty(dob)) {
-        res.json({ messsage: "dob is not empty" });
+        res.json({ messsage: "Dob is not empty" });
       }
       if (valid.isEmpty(gender)) {
-        res.json({ messsage: "gender is not empty" });
+        res.json({ messsage: "Gender is not empty" });
       }
       if (!valid.isEmail(email)) {
         res.json({ messsage: "This email is not in a correct format" });

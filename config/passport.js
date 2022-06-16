@@ -6,6 +6,7 @@ const opt = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.secretKey,
 };
+
 module.exports = (passport) => {
   passport.use(
     new Strategy(opt, async (payload, done) => {

@@ -82,7 +82,18 @@
         "tags": ["Users"],
         "description": "list of Users",
         "produces": ["application/json"],
-
+        "parameters": [
+          {
+            "name": "skipNo",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "fetchNo",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -327,7 +338,18 @@
         "tags": ["Movies"],
         "description": "List of movies",
         "produces": ["application/json"],
-
+        "parameters": [
+          {
+            "name": "skipNo",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "fetchNo",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -553,7 +575,18 @@
         "tags": ["Tickets"],
         "description": "List of all tickets",
         "produces": ["application/json"],
-
+        "parameters": [
+          {
+            "name": "skipNo",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "fetchNo",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -630,7 +663,7 @@
         }
       }
     },
-    "/api/paymnet/addpayment": {
+    "/api/payment/addpayment": {
       "post": {
         "security": [
           {
@@ -691,7 +724,7 @@
         }
       }
     },
-    "/api/paymnet/paymentList": {
+    "/api/payment/paymentList": {
       "get": {
         "security": [
           {
@@ -701,7 +734,18 @@
         "tags": ["Payment"],
         "description": "List of payments transection",
         "produces": ["application/json"],
-
+        "parameters": [
+          {
+            "name": "skipNo",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "fetchNo",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -718,7 +762,7 @@
         }
       }
     },
-    "/api/paymnet/getpaymentbyid": {
+    "/api/payment/getpaymentbyid": {
       "get": {
         "security": [
           {
@@ -754,7 +798,7 @@
         }
       }
     },
-    "/api/paymnet/deletepaymentbyid": {
+    "/api/payment/deletepaymentbyid": {
       "delete": {
         "security": [
           {

@@ -42,9 +42,17 @@ module.exports = {
     }
   },
   getAllPaymentList: async (req, res) => {
-    const data = await paymentModel.find();
-
-    res.json({ message: "List of payments", data });
+    const { skipNo, fetchNo } = req.query;
+    if (
+      (skipNo == "" && fetchNo == "") ||
+      (skipNo === undefined && fetchNo === undefined)
+    ) {
+      const data = await paymentModel.find().skip(0).limit(10);
+      res.json({ message: "List of payments", data });
+    } else {
+      const data = await paymentModel.find().skip(skipNo).limit(fetchNo);
+      res.json({ message: "List of payments", data });
+    }
   },
   getPaymentById: async (req, res) => {
     const data = await paymentModel

@@ -8,7 +8,6 @@ const transPoter = nodeMailer.createTransport({
     pass: process.env.password,
   },
 });
-
 function sendMail(toEmail, data) {
   var mailTransport = {
     from: process.env.email,
@@ -25,4 +24,5 @@ function sendMail(toEmail, data) {
     }
   });
 }
+
 module.exports = sendMail;

@@ -37,16 +37,48 @@ module.exports = {
   },
   ticketbookedList: async (req, res) => {
     try {
-      const data = await ticketModel.find({ createdBy: req.user._id });
-      res.json({ message: "list of  tickets you booked", data });
+      const { skipNo, fetchNo } = req.body;
+      if (
+        (skipNo == "" && fetchNo == "") ||
+        (skipNo === undefined && fetchNo === undefined)
+      ) {
+        const data = await ticketModel
+          .find({ createdBy: req.user._id })
+          .skip(0)
+          .limit(10);
+        res.json({ message: "list of  tickets you booked", data });
+      } else {
+        const data = await ticketModel
+          .find({ createdBy: req.user._id })
+          .skip(skipNo)
+          .limit(fetchNo);
+        res.json({ message: "list of  tickets you booked", data });
+      }
     } catch (error) {
       res.json({ message: error.message });
     }
   },
   ticketList: async (req, res) => {
     try {
-      const data = await ticketModel.find().populate("createdBy");
-      res.json({ message: "list of  tickets  user booked", data });
+      const { skipNo, fetchNo } = req.query;
+      if (
+        (skipNo == "" && fetchNo == "") ||
+        (skipNo === undefined && fetchNo === undefined)
+      ) {
+        const data = await ticketModel
+          .find()
+          .populate("createdBy")
+          .skip(0)
+          .limit(10);
+        res.json({ message: "List of  tickets  user booked", data });
+      } else {
+        const data = await ticketModel
+          .find()
+          .populate("createdBy")
+          .skip(skipNo)
+          .limit(fetchNo);
+        res.json({ message: "List of  tickets  user booked", data });
+      }
     } catch (error) {
       res.json({ message: error.message });
     }

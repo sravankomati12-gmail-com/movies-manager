@@ -37,16 +37,30 @@ module.exports = {
         }
       });
     } catch (error) {
-      console.log(error.message);
-      // res.json({ message: error.message });
+      res.json({ message: error.message });
     }
   },
   getAllMovie: async (req, res) => {
     try {
-      const data = await movieModel
-        .find()
-        .select({ name: 1, _id: 1, image: 1 });
-      res.json({ message: "List of movies", data });
+      const { skipNo, fetchNo } = req.query;
+      if (
+        (skipNo == "" && fetchNo == "") ||
+        (skipNo === undefined && fetchNo === undefined)
+      ) {
+        const data = await movieModel
+          .find()
+          .select({ name: 1, _id: 1, image: 1 })
+          .skip(0)
+          .limit(10);
+        res.json({ message: "List of movies", data });
+      } else {
+        const data = await movieModel
+          .find()
+          .select({ name: 1, _id: 1, image: 1 })
+          .skip(skipNo)
+          .limit(fetchNo);
+        res.json({ message: "List of movies", data });
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -119,7 +133,6 @@ module.exports = {
   deleteMovie: async (req, res) => {
     try {
       const data = await movieModel.findOne({ _id: req.query.id });
-
       if (data) {
         fs.unlink(
           `./public/${data.image.split("4005/")[1]}`,
@@ -138,5 +151,12 @@ module.exports = {
     } catch (error) {
       console.log(error.message);
     }
+  },
+  searchMovie: async (req, res) => {
+    // console.log(req.body);
+    const result = await movieModel.find(req.body);
+    // const result = await movieModel.find({ language: { $regex: /^telugu$/i } });
+
+    res.json({ message: "Get movies by what your search", result });
   },
 };

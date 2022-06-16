@@ -4,8 +4,8 @@ const authv = require("../middleware/auth");
 const passport = require("passport");
 
 const userRouter = express.Router();
-
 const auth = passport.authenticate("jwt", { session: false });
+
 userRouter.post(
   "/checkuser",
   authv.userValidation,

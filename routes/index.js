@@ -8,9 +8,10 @@ const passport = require("passport");
 
 const index = express();
 const auth = passport.authenticate("jwt", { session: false });
+
 index.use("/user", userRoute);
 index.use("/movie", [auth, userMiddleware.authVerify], movieRoute);
 index.use("/ticket", [auth, userMiddleware.authVerify], ticketRoute);
-index.use("/paymnet", [auth, userMiddleware.authVerify], paymentRoute);
+index.use("/payment", [auth, userMiddleware.authVerify], paymentRoute);
 
 module.exports = index;

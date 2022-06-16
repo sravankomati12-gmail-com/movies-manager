@@ -28,7 +28,7 @@ module.exports = {
               userName: checkEmail.name,
               admin: checkEmail.isAdmin,
               token: `Bearer ${token}`,
-              message: "you are now login successfully",
+              message: "You are now login successfully",
             });
           } else {
             res.json({
@@ -57,7 +57,7 @@ module.exports = {
           userName: data.name,
           admin: data.isAdmin,
           token: `Bearer ${token}`,
-          message: "you are now login successfully",
+          message: "You are now login successfully",
         });
       }
     } catch (error) {
@@ -66,8 +66,18 @@ module.exports = {
   },
   userList: async (req, res) => {
     try {
-      const data = await userModel.find();
-      res.json({ message: "List of users", data });
+      const { skipNo, fetchNo } = req.query;
+      console.log(req.query);
+      if (
+        (skipNo == "" && fetchNo == "") ||
+        (skipNo === undefined && fetchNo === undefined)
+      ) {
+        const data = await userModel.find().skip(0).limit(10);
+        res.json({ message: "List of users", data });
+      } else {
+        const data = await userModel.find().skip(skipNo).limit(fetchNo);
+        res.json({ message: "List of users", data });
+      }
     } catch (error) {
       res.json({ message: error.message });
     }

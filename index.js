@@ -8,6 +8,7 @@ const uploaded = require("express-fileupload");
 const cors = require("cors");
 
 const app = express();
+
 app.use(passport.initialize());
 require("./config/passport")(passport);
 app.use(uploaded());
