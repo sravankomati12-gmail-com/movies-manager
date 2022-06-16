@@ -6,6 +6,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./config/swagger.json");
 const uploaded = require("express-fileupload");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
@@ -19,6 +20,6 @@ app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", mainRoute);
 
-app.listen(4005, () => {
+app.listen(process.env.port, () => {
   console.log("Server is started");
 });
