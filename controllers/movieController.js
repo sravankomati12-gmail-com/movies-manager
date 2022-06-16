@@ -156,7 +156,6 @@ module.exports = {
     // console.log(req.body);
     const result = await movieModel.find(req.body);
     // const result = await movieModel.find({ language: { $regex: /^telugu$/i } });
-
     res.json({ message: "Get movies by what your search", result });
   },
 };

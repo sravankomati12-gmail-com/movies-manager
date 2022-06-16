@@ -1,4 +1,5 @@
 const ticketModel = require("../models/ticketModel");
+
 let totalSeats = 100;
 
 module.exports = {
@@ -46,7 +47,7 @@ module.exports = {
           .find({ createdBy: req.user._id })
           .skip(0)
           .limit(10);
-        res.json({ message: "list of  tickets you booked", data });
+        res.json({ message: "List of  tickets you booked", data });
       } else {
         const data = await ticketModel
           .find({ createdBy: req.user._id })

@@ -8,7 +8,6 @@ module.exports = {
   addAndLoginUser: async (req, res) => {
     try {
       const { name, email, password, phone, dob, gender } = req.body;
-
       const checkEmail = await userModel.findOne({ email });
       if (checkEmail) {
         const checkPaswsword = await bcrypt.compare(
@@ -88,7 +87,6 @@ module.exports = {
       const checkUser = await userModel.findById(id);
       if (checkUser) {
         const genaratePassword = await bcrypt.hash(password, 10);
-
         await userModel.findByIdAndUpdate(
           { _id: id },
           { name, email, password: genaratePassword, phone, dob, gender }
