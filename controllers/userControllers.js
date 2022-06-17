@@ -84,13 +84,22 @@ module.exports = {
   },
   userUpdate: async (req, res) => {
     try {
-      const { name, email, password, phone, dob, gender, id } = req.body;
+      const { name, email, password, phone, dob, gender, id, isDeleted } =
+        req.body;
       const checkUser = await userModel.findById(id);
       if (checkUser) {
         const genaratePassword = await bcrypt.hash(password, 10);
         await userModel.findByIdAndUpdate(
           { _id: id },
-          { name, email, password: genaratePassword, phone, dob, gender }
+          {
+            name,
+            email,
+            password: genaratePassword,
+            phone,
+            dob,
+            gender,
+            isDeleted,
+          }
         );
         res.json({ message: "This user details is updated" });
       } else {
