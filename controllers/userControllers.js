@@ -180,6 +180,7 @@ module.exports = {
             await userModel.findOneAndUpdate(email, {
               password: genaratePassword,
             });
+            await otpmodel.findByIdAndDelete(checkEmail._id);
             res.json({ message: "password is changed" });
           } else {
             res.json({ message: "Otp is invalid" });

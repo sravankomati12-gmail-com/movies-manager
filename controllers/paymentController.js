@@ -16,7 +16,7 @@ module.exports = {
     if (checkTicket) {
       razorPayInstance.orders
         .create({
-          amount: checkTicket.amount * 100,
+          amount: checkTicket.amount,
           currency: currency,
           receipt: "su001",
           payment_capture: "1",
@@ -59,9 +59,5 @@ module.exports = {
       .findById(req.query.id)
       .populate([{ path: "ticket", populate: { path: "createdBy" } }]);
     res.json({ message: "List of payments by id", data });
-  },
-  deletePaymentById: async (req, res) => {
-    await paymentModel.findByIdAndDelete(req.query.id);
-    res.json({ message: "These payment details are deleted" });
   },
 };
