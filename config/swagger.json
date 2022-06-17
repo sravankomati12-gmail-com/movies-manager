@@ -5,9 +5,8 @@
     "version": "1.0.0",
     "title": "Movies  management system",
     "description": "Movies management application api`s",
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
+    "contact": {
+      "email": "sravankomati.vision@gmail.com"
     }
   },
   "securityDefinitions": {
