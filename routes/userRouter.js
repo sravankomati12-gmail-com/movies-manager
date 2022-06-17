@@ -1,7 +1,6 @@
 const express = require("express");
 const userControl = require("../controllers/userControllers");
 const authv = require("../middleware/auth");
-const passport = require("passport");
 const userRouter = express.Router();
 
 userRouter.post("/update", authv.userValidation, userControl.userUpdate);
