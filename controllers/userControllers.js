@@ -1,7 +1,8 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const { sign, verify } = require("jsonwebtoken");
 const mail = require("../config/email");
+const { sign } = require("jsonwebtoken");
+const otpmodel = require("../models/otpmodel");
 require("dotenv").config();
 
 module.exports = {
@@ -132,6 +133,66 @@ module.exports = {
       }
     } catch (error) {
       res.json({ message: error.message });
+    }
+  },
+  chanagePassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (email) {
+        const checkEmail = await userModel.findOne({ email });
+        if (checkEmail) {
+          let otpCode = Math.floor(Math.random() * 100000 + 1);
+          checkEmailExist = await otpmodel.findOne({ email });
+          if (checkEmailExist) {
+            await otpmodel.findByIdAndUpdate(checkEmailExist._id, {
+              otp: otpCode,
+              expiresIn: new Date().getTime() + 300 * 1000,
+            });
+          } else {
+            await otpmodel.create({
+              email,
+              otp: otpCode,
+              expiresIn: new Date().getTime() + 300 * 1000,
+            });
+          }
+          mail(email, otpCode);
+          res.json({ message: "Otp is sended to this email" });
+        } else {
+          res.json({ message: "This email is not exist please register" });
+        }
+      } else {
+        res.json({ message: "Email is required" });
+      }
+    } catch (error) {
+      console.log(error.message);
+      res.json({ message: "Email should be define" });
+    }
+  },
+  verifyOtp: async (req, res) => {
+    try {
+      console.log(new Date().getTime() + 300 * 1000);
+      const { email, otp, password } = req.body;
+      if (email != "" || otp != "" || password != "") {
+        const checkEmail = await otpmodel.findOne({ email });
+        if (checkEmail) {
+          if (checkEmail.otp == otp) {
+            const genaratePassword = await bcrypt.hash(password, 10);
+            await userModel.findOneAndUpdate(email, {
+              password: genaratePassword,
+            });
+            res.json({ message: "password is changed" });
+          } else {
+            res.json({ message: "Otp is invalid" });
+          }
+        } else {
+          res.json({ message: "Email is invalid" });
+        }
+      } else {
+        res.json({ message: "Fields not be empty" });
+      }
+    } catch (error) {
+      // console.log(error.message);
+      res.json({ message: "Fields should be  define" });
     }
   },
 };

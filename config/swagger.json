@@ -42,7 +42,7 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/api/user/checkuser": {
+    "/api/notken/checkuser": {
       "post": {
         "tags": ["Users"],
         "description": "Create user",
@@ -235,6 +235,76 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Business Exception",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/notken/changepassword": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Change password",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vm",
+            "in": "body",
+            "properties": {
+              "email": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "400": {
+            "description": "Business Exception",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/notken/verifyotp": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Otp verify",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vm",
+            "in": "body",
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "otp": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           },
           "400": {
             "description": "Business Exception",

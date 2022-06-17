@@ -1,15 +1,17 @@
 const express = require("express");
+const index = express();
 const userRoute = require("./userRouter");
+const noToken = require("./noTokenRouter");
 const movieRoute = require("./movieRouter");
 const ticketRoute = require("./ticketRouter");
 const paymentRoute = require("./paymentRouter");
 const userMiddleware = require("../middleware/auth");
 const passport = require("passport");
 
-const index = express();
 const auth = passport.authenticate("jwt", { session: false });
 
-index.use("/user", userRoute);
+index.use("/user", [auth, userMiddleware.authVerify], userRoute);
+index.use("/notken", noToken);
 index.use("/movie", [auth, userMiddleware.authVerify], movieRoute);
 index.use("/ticket", [auth, userMiddleware.authVerify], ticketRoute);
 index.use("/payment", [auth, userMiddleware.authVerify], paymentRoute);

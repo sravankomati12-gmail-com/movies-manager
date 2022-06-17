@@ -8,12 +8,13 @@ const transPoter = nodeMailer.createTransport({
     pass: process.env.password,
   },
 });
+
 function sendMail(toEmail, data) {
   var mailTransport = {
     from: process.env.email,
     to: toEmail,
-    subject: "Verify email for reset password",
-    text: `Verify link: ${data}`,
+    subject: "Verify email for change password",
+    text: `Your otp is: ${data}`,
   };
   transPoter.sendMail(mailTransport, (err) => {
     if (err) {

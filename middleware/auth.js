@@ -1,7 +1,6 @@
 const valid = require("validator");
 require("dotenv").config();
 
-const userAccessWithoutLogin = ["/checkuser", "/forgot"];
 const userAccess = [
   "/allmovies",
   "/moviebyid",
@@ -60,11 +59,7 @@ module.exports = {
           res.json({ messsage: "You did not exist in database" });
         }
       } else {
-        if (userAccessWithoutLogin.indexOf(req.path) !== -1) {
-          next();
-        } else {
-          res.json({ messsage: "This URL is not existing" });
-        }
+        res.json({ messsage: "This URL is not existing" });
       }
     } catch (error) {
       res.json({ messsage: error.messsage });
