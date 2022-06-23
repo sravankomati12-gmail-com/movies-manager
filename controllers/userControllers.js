@@ -19,7 +19,7 @@ module.exports = {
           if (!checkEmail.isDeleted) {
             const token = sign(
               { userid: checkEmail._id },
-              process.env.secretKey,
+              process.env.secretKey || 123456,
               {
                 expiresIn: "5h",
               }
@@ -51,9 +51,13 @@ module.exports = {
             dob,
             gender,
           });
-          const token = sign({ userid: data._id }, process.env.secretKey, {
-            expiresIn: "5h",
-          });
+          const token = sign(
+            { userid: data._id },
+            process.env.secretKey || 123456,
+            {
+              expiresIn: "5h",
+            }
+          );
           res.json({
             userName: data.name,
             admin: data.isAdmin,
