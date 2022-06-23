@@ -16,13 +16,13 @@ module.exports = {
     if (checkTicket) {
       razorPayInstance.orders
         .create({
-          amount: checkTicket.amount,
+          amount: checkTicket.amount * 100,
           currency: currency,
           receipt: "su001",
           payment_capture: "1",
         })
         .then(async (result) => {
-          await paymentModel.create({
+          const data = await paymentModel.create({
             acountNo: acountno,
             paymentOpt: payopt,
             currency,
@@ -32,7 +32,7 @@ module.exports = {
             ticket: checkTicket._id,
             paymentId: result.id,
           });
-          res.json({ message: "Payment is done", details: result });
+          res.json({ message: "Payment is done", details: data });
         })
         .catch((err) => {
           console.log(err);
@@ -59,5 +59,10 @@ module.exports = {
       .findById(req.query.id)
       .populate([{ path: "ticket", populate: { path: "createdBy" } }]);
     res.json({ message: "List of payments by id", data });
+  },
+  updatePaymentDetails: async (req, res) => {
+    const { id, paymentId } = req.body;
+    await paymentModel.findByIdAndUpdate(id, { paymentId });
+    res.json({ message: "payment is done" });
   },
 };

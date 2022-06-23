@@ -14,7 +14,7 @@ module.exports = {
         for (var i = 0; i < seats; i += 1) {
           result.push(Number(ts.substr(i, 2)).toString(36));
         }
-        await ticketModel.create({
+        const data = await ticketModel.create({
           movieName: name,
           seatBookedNo: seats,
           amount,
@@ -25,6 +25,7 @@ module.exports = {
         res.json({
           message: "This movie ticket is booked",
           ticket: `Avalable ticket is ${totalSeats}`,
+          data,
         });
       } else {
         res.json({
@@ -38,7 +39,7 @@ module.exports = {
   },
   ticketbookedList: async (req, res) => {
     try {
-      const { skipNo, fetchNo } = req.body;
+      const { skipNo, fetchNo } = req.query;
       if (
         (skipNo == "" && fetchNo == "") ||
         (skipNo === undefined && fetchNo === undefined)

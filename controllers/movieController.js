@@ -14,7 +14,9 @@ module.exports = {
         producers,
         casting,
       } = req.body;
+
       const { image } = req.files;
+
       const imageName = Date.now() + "_" + image.name;
       const imageStore = "./public/" + imageName;
       image.mv(imageStore, async (err) => {
@@ -37,7 +39,8 @@ module.exports = {
         }
       });
     } catch (error) {
-      res.json({ message: error.message });
+      // console.log(error.message);
+      res.json({ error: error.message });
     }
   },
   getAllMovie: async (req, res) => {
@@ -155,9 +158,12 @@ module.exports = {
   searchMovie: async (req, res) => {
     try {
       // console.log(req.body);
-      const result = await movieModel.find(req.body);
-      // const result = await movieModel.find({ language: { $regex: /^telugu$/i } });
-      res.json({ message: "Get movies by what your search", result });
+      const { name } = req.body;
+      // const result = await movieModel.find(req.body);
+      const data = await movieModel.find({
+        name: { $regex: `${name}`, $options: "i" },
+      });
+      res.json({ message: "Get movies by what your search", data });
     } catch (error) {
       res.json({ message: error.message });
     }

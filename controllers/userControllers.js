@@ -32,42 +32,58 @@ module.exports = {
             });
           } else {
             res.json({
-              message: "Your not active please contact to admin",
+              error: "Your not active please contact to admin",
             });
           }
         } else {
           res.json({
-            message: "This email exists but the password is incorrect",
+            error: "This email exists but the password is incorrect",
           });
         }
       } else {
-        const genaratePassword = await bcrypt.hash(password, 10);
-        const data = await userModel.create({
-          name,
-          email,
-          password: genaratePassword,
-          phone,
-          dob,
-          gender,
-        });
-        const token = sign({ userid: data._id }, process.env.secretKey, {
-          expiresIn: "5h",
-        });
-        res.json({
-          userName: data.name,
-          admin: data.isAdmin,
-          token: `Bearer ${token}`,
-          message: "You are now login successfully",
-        });
+        if (name != undefined) {
+          const genaratePassword = await bcrypt.hash(password, 10);
+          const data = await userModel.create({
+            name,
+            email,
+            password: genaratePassword,
+            phone,
+            dob,
+            gender,
+          });
+          const token = sign({ userid: data._id }, process.env.secretKey, {
+            expiresIn: "5h",
+          });
+          res.json({
+            userName: data.name,
+            admin: data.isAdmin,
+            token: `Bearer ${token}`,
+            message: "You are now login successfully",
+          });
+        } else {
+          res.json({ error: "name must be define" });
+        }
       }
     } catch (error) {
       console.log(error.message);
     }
   },
+  getUserbyid: async (req, res) => {
+    try {
+      const checkUser = await userModel.findById(req.query.id);
+      if (checkUser) {
+        res.json({ message: "Get user deatails By id", data: checkUser });
+      } else {
+        res.json({ message: "This user id is not exist" });
+      }
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  },
   userList: async (req, res) => {
     try {
       const { skipNo, fetchNo } = req.query;
-      console.log(req.query);
+
       if (
         (skipNo == "" && fetchNo == "") ||
         (skipNo === undefined && fetchNo === undefined)
