@@ -24,6 +24,6 @@ app.use("/api", mainRoute);
 // frontend Router
 app.use(frontendRoute);
 
-app.listen(process.env.port, () => {
+app.listen(process.env.port || 4005, () => {
   console.log("Server is started");
 });
