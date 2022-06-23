@@ -1,5 +1,6 @@
 const movieModel = require("../models/movieModel");
 const fs = require("fs");
+const path = process.env.imagepath || "http://localhost:4005/";
 
 module.exports = {
   addMovie: async (req, res) => {
@@ -23,7 +24,7 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          const imagePath = process.env.imagepath + imageName;
+          const imagePath = path + imageName;
           await movieModel.create({
             name,
             decription,
@@ -106,7 +107,7 @@ module.exports = {
               if (err) {
                 console.log(err);
               } else {
-                const imagePath = process.env.imagepath + imageName;
+                const imagePath = path + imageName;
                 await movieModel.findByIdAndUpdate(
                   { _id: id },
                   {
