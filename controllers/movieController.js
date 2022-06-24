@@ -1,6 +1,6 @@
 const movieModel = require("../models/movieModel");
 const fs = require("fs");
-const path = process.env.imagepath || "http://localhost:4005/";
+const path = process.env.imagepath;
 
 module.exports = {
   addMovie: async (req, res) => {

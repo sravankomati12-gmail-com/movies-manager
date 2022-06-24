@@ -4,14 +4,14 @@ require("dotenv").config();
 const transPoter = nodeMailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.email || "sravankomati.vision@gmail.com",
-    pass: process.env.password || "norvxbthlzdfiefv",
+    user: process.env.email,
+    pass: process.env.password,
   },
 });
 
 function sendMail(toEmail, data) {
   var mailTransport = {
-    from: process.env.email || "sravankomati.vision@gmail.com",
+    from: process.env.email,
     to: toEmail,
     subject: "Verify email for change password",
     text: `Your otp is: ${data}`,

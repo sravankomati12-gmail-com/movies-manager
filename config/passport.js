@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const opt = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.secretKey || 123456,
+  secretOrKey: process.env.secretKey,
 };
 
 module.exports = (passport) => {
