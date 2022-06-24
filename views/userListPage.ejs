@@ -4,12 +4,12 @@
     <thead>
       <tr>
         <th scope="col">No.</th>
-        <th scope="col">user name</th>
+        <th scope="col">User name</th>
         <th scope="col">Email</th>
-        <th scope="col">phone</th>
-        <th scope="col">gender</th>
-        <th scope="col">Is deleted</th>
-        <th scope="col">created at</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Isdeleted</th>
+        <th scope="col">Created at</th>
         <th scope="col" colspan="2">Action</th>
       </tr>
     </thead>
@@ -77,10 +77,10 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter username"
                 />
-                <div id="usNamev" style="color: red"></div>
+                <div id="usNamev" class="error"></div>
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">email</label>
+                <label for="exampleInputEmail1">Email</label>
                 <input
                   type="email"
                   class="form-control"
@@ -88,10 +88,10 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
                 />
-                <div id="emailv" style="color: red"></div>
+                <div id="emailv" class="error"></div>
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">password</label>
+                <label for="exampleInputEmail1">Password</label>
                 <input
                   type="text"
                   class="form-control"
@@ -99,7 +99,7 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter password"
                 />
-                <div id="passwordv" style="color: red"></div>
+                <div id="passwordv" class="error"></div>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Phone no.</label>
@@ -110,24 +110,24 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter phone"
                 />
-                <div id="phonev" style="color: red"></div>
+                <div id="phonev" class="error"></div>
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">dob</label>
+                <label for="exampleInputEmail1">DOB</label>
                 <input
                   type="date"
                   class="form-control"
                   id="dob"
                   aria-describedby="emailHelp"
                 />
-                <div id="dobv" style="color: red"></div>
+                <div id="dobv" class="error"></div>
               </div>
               <div class="form-group">
-                <label for="formGroupExampleInput2">gender</label>
+                <label for="formGroupExampleInput2">Gender</label>
                 <input type="radio" id="male" name="gender" value="male" /> Male
                 <input type="radio" id="female" name="gender" value="female" />
                 Female
-                <div id="genderv" style="color: red"></div>
+                <div id="genderv" class="error"></div>
               </div>
               <div class="form-group">
                 <label for="formGroupExampleInput2">Is deleted</label>
@@ -135,7 +135,7 @@
                 True
                 <input type="radio" id="dfalse" name="gender1" value="false" />
                 False
-                <div id="deletedv" style="color: red"></div>
+                <div id="deletedv" class="error"></div>
               </div>
 
               <button
@@ -153,6 +153,7 @@
             Close
           </button>
         </div>
+      </form>
       </div>
     </div>
   </div>
